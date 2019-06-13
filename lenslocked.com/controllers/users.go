@@ -3,12 +3,12 @@ package controllers
 import (
 	"fmt"
 	"net/http"
-	"github.com/gorilla/schema"
+
 	"github.com/barmstrong9/WebDevelopmentWithGo/lenslocked.com/views"
 )
 
 type SignupForm struct {
-	Email string `schema:"email"`
+	Email    string `schema:"email"`
 	Password string `schema:"password"`
 }
 
@@ -18,7 +18,7 @@ func NewUsers() *Users {
 	}
 }
 
-type Users struct{
+type Users struct {
 	NewView *views.View
 }
 
@@ -29,13 +29,10 @@ func (u *Users) New(w http.ResponseWriter, r *http.Request) {
 }
 
 func (u *Users) Create(w http.ResponseWriter, r *http.Request) {
-	if err := r.ParseForm(); err != nil{
+	var form SignupForm
+	if err := parseForm(r, &form); err != nil {
 		panic(err)
 	}
-	dec := schema.NewDecoder()
-	form := SignupForm{}
-	if err := dec.Decode(&form, r.PostForm); err != nil {
-		panic(err)
-	}
-	fmt.Fprintln(w, form)
+	fmt.Fprintln(w, "Email is", form.Email)
+	fmt.Fprintln(w, "Email is", form.Password)
 }
