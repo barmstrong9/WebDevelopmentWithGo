@@ -38,9 +38,9 @@ func must(err error) {
 func main() {
 	staticC := controllers.NewStatic()
 	usersC := controllers.NewUsers()
-	homeView = views.NewView("bootstrap", "views/static/home.gohtml")
-	contactView = views.NewView("bootstrap", "views/static/contact.gohtml")
-	faqView = views.NewView("bootstrap", "views/faq.gohtml")
+	homeView = views.NewView("bootstrap", "static/home")
+	contactView = views.NewView("bootstrap", "static/contact")
+	faqView = views.NewView("bootstrap", "static/faq")
 
 	r := mux.NewRouter()
 	r.Handle("/", staticC.Home).Methods("GET")
