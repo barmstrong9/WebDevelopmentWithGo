@@ -36,16 +36,17 @@ func must(err error) {
 }
 
 func main() {
-	homeView = views.NewView("bootstrap", "views/home.gohtml")
-	contactView = views.NewView("bootstrap", "views/contact.gohtml")
-	faqView = views.NewView("bootstrap", "views/faq.gohtml")
+	staticC := controllers.NewStatic()
 	usersC := controllers.NewUsers()
+	homeView = views.NewView("bootstrap", "static/home")
+	contactView = views.NewView("bootstrap", "static/contact")
+	faqView = views.NewView("bootstrap", "static/faq")
 
 	r := mux.NewRouter()
-	r.HandleFunc("/", home).Methods("GET")
-	r.HandleFunc("/contact", contact).Methods("GET")
+	r.Handle("/", staticC.Home).Methods("GET")
+	r.Handle("/contact", staticC.Contact).Methods("GET")
 	r.HandleFunc("/faq", faq).Methods("GET")
 	r.HandleFunc("/signup", usersC.New).Methods("GET")
 	r.HandleFunc("/signup", usersC.Create).Methods("POST")
-	http.ListenAndServe(":3000", r)
+	http.ListenAndServe(":3000", r) 
 }
